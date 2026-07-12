@@ -8,10 +8,15 @@
     "splash": {
       "backgroundColor": "#F7F4EE"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "package": "com.headwaybpo.threadline",
-      "permissions": ["RECORD_AUDIO"]
+      "permissions": [
+        "RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "ios": {
       "supportsTablet": false,
@@ -29,6 +34,11 @@
           "speechRecognitionPermission": "Allow Threadline to convert your speech to text."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "706caca2-b8eb-4dc8-abaa-f1f7bc434c4b"
+      }
+    }
   }
 }

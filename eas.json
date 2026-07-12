@@ -13,7 +13,10 @@
     "preview": {
       "distribution": "internal",
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://txipdectnhqexnozgsto.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4aXBkZWN0bmhxZXhub3pnc3RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4Njc3NTQsImV4cCI6MjA5OTQ0Mzc1NH0.ohvmS49sbz0rInyqLB53wU0b3VrXyS7gtWXsElNJZ9s" }
       }
     },
     "production": {}

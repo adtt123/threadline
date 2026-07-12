@@ -1,8 +1,9 @@
 // Supabase Edge Function: extract-contact
-// Takes raw spoken/typed text and asks Claude to return structured contact fields.
-// The Anthropic API key stays here (server secret) — never inside the phone app.
+// Takes raw spoken/typed text and asks Google Gemini (free tier, no billing needed)
+// to return structured contact fields. Your Gemini key stays here as a secret —
+// never inside the phone app.
 
-const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
+const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
 
 Deno.serve(async (req) => {
   try {
@@ -15,7 +16,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const systemPrompt = `You extract contact information from a spoken sentence into strict JSON.
+    const prompt = `You extract contact information from a spoken sentence into strict JSON.
 Return ONLY a JSON object, no preamble, no markdown fences, with exactly these fields:
 {
   "name": string,
@@ -25,25 +26,24 @@ Return ONLY a JSON object, no preamble, no markdown fences, with exactly these f
   "how_they_help": string or null (one short sentence),
   "met_context": string or null
 }
-If a field isn't mentioned, use null (or empty array for tags). Never invent details not implied by the text.`;
+If a field isn't mentioned, use null (or empty array for tags). Never invent details not implied by the text.
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": ANTHROPIC_API_KEY ?? "",
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: "claude-haiku-4-5",
-        max_tokens: 500,
-        system: systemPrompt,
-        messages: [{ role: "user", content: transcript }],
-      }),
-    });
+Sentence: "${transcript}"`;
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: "application/json" },
+        }),
+      }
+    );
 
     const data = await response.json();
-    const rawText = data?.content?.[0]?.text ?? "{}";
+    const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "{}";
     const cleaned = rawText.replace(/```json|```/g, "").trim();
 
     let parsed;

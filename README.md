@@ -123,14 +123,14 @@ You have now created the one and only account this app will ever have.
 ## Step 5 — Turn on the AI "listening" feature and the news feed
 
 These are two small free cloud functions that do the smart parts: understanding what Anupam
-says out loud, and fetching news headlines.
+says out loud, and fetching news headlines. This version uses **Google Gemini**, which has a
+free tier that needs no credit card and no billing at all for personal use like this.
 
-1. Get a free Anthropic (Claude) API key:
-   - Go to https://console.anthropic.com and sign up.
-   - Once inside, find **API Keys** in the menu, click **Create Key**, and copy the key it
-     gives you (starts with `sk-ant-`). You'll need to add a small amount of billing credit
-     here (a few dollars covers months of normal use) — there's no other way around this
-     specific cost, since it's what powers the "understand what I just said" feature.
+1. Get a free Gemini API key:
+   - Go to https://aistudio.google.com/apikey
+   - Sign in with any Google account.
+   - Click **Create API Key**. Copy the key it gives you (a long string of letters and
+     numbers). No credit card, no billing setup, nothing to pay — this is genuinely free.
 
 2. Install the Supabase command-line tool. In your terminal, type:
    ```
@@ -148,9 +148,9 @@ says out loud, and fetching news headlines.
    supabase link --project-ref your-project-ref
    ```
 
-5. Save your Claude API key as a secret (replace with your real key):
+5. Save your Gemini API key as a secret (replace with your real key):
    ```
-   supabase secrets set ANTHROPIC_API_KEY=sk-ant-your-real-key-here
+   supabase secrets set GEMINI_API_KEY=your-real-gemini-key-here
    ```
 
 6. Deploy both functions:
@@ -159,8 +159,7 @@ says out loud, and fetching news headlines.
    supabase functions deploy get-news
    ```
 
-That's it — the "brain" behind voice add and the news feed are now live, for free (aside from
-the small Claude API cost above).
+That's it — the "brain" behind voice add and the news feed are now live, at completely no cost.
 
 ---
 
@@ -288,8 +287,7 @@ Until you're ready for that, Android works today at no cost at all.
 | GitHub | Free |
 | Supabase (database, login, cloud functions) | Free |
 | Expo + EAS Android build | Free |
-| Claude API (the "understand what I said" feature) | A few dollars a month, pay-as-you-go |
+| Gemini API (the "understand what I said" feature) | Free — no billing required |
 | iPhone App Store distribution (optional, later) | $99/year — skip for now |
 
-**You can have this fully working on Android today for $0, aside from the small Claude API
-credit you add once in Step 5.**
+**You can have this fully working on Android today for genuinely $0.**
